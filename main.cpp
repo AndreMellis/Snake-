@@ -41,7 +41,14 @@ int main(int argc, char *args[])
         }
         if(quit){break;}
 
+        // move the snake and check for collision
         snakeGame.moveSnake();
+        if(snakeGame.checkHeadCollision())
+        {
+            quit = 1;
+            pWindowRenderer->close();
+            break;
+        }
         
         pWindowRenderer->clearBuffer();
         snakeGame.render();

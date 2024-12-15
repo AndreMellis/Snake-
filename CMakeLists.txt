@@ -13,7 +13,6 @@ find_package(SDL2_image REQUIRED)
 set(SOURCES 
     engine/sources/WindowRendering.cpp
     engine/sources/LTimer.cpp
-    engine/sources/Colliders.cpp
     bin/sources/Tile.cpp
     bin/sources/SnakeGame.cpp)
 

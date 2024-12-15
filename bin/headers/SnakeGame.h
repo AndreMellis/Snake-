@@ -31,8 +31,10 @@ private:
     bool headHitDot(); // returns true if the head collides with the dot
     void eatAndMoveDot(); // eats the dot and moves dot
     void addSnakePart(); // generates snake part
+
 public:
     SnakeGame();
+    bool checkHeadCollision(); // check for collision between head and the rest of the body
 
     void render(); //render all tiles on map
     void handleInput(SDL_Event &event);

@@ -22,6 +22,7 @@ public:
     void toggleOccupied(); //removes or add snake depending on occupied
 
     void render(); // if you have a snake, print it
+    SDL_Rect *getCords() { return &cords; }
 };
 
 #endif

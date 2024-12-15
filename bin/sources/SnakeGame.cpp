@@ -60,27 +60,39 @@ void SnakeGame::handleInput(SDL_Event &event)
             case SDLK_w:
             case SDLK_UP:
                 // so if w or UP, then
-                mVelY = -1;
-                mVelX = 0;
+				if( mVelY != 1 )
+				{ //we don't want to reverse
+                	mVelY = -1;
+                	mVelX = 0;
+				}
                 break;
             
             case SDLK_s:
             case SDLK_DOWN:
                 // so if s or DOWN, hen
-                mVelY = 1;
-                mVelX = 0;
+				if( mVelY != -1)
+				{
+                	mVelY = 1;
+                	mVelX = 0;
+				}
                 break;
             
             case SDLK_d:
             case SDLK_RIGHT:
-                mVelY = 0;
-                mVelX = 1;
+				if(mVelX != -1)
+				{
+                	mVelY = 0;
+                	mVelX = 1;
+				}
                 break;
             
             case SDLK_a:
             case SDLK_LEFT:
-                mVelY = 0;
-                mVelX = -1;
+				if(mVelX != 1)
+				{
+                	mVelY = 0;
+                	mVelX = -1;
+				}
                 break;
         }
     }
@@ -128,4 +140,22 @@ void SnakeGame::eatAndMoveDot()
 bool SnakeGame::headHitDot()
 {
     return mPosY == dotY && mPosX == dotX;
+}
+
+bool SnakeGame::checkHeadCollision()
+{
+    SDL_Rect *headBox = mainMap[ snakeParts.front().first ][ snakeParts.front().second ]->getCords();
+
+    for(int i = 1; i < snakeParts.size(); i++)
+    {
+        if(SDL_HasIntersection ( 
+            headBox,
+            mainMap[ snakeParts.at(i).first ][ snakeParts.at(i).second ]->getCords()
+         ))
+         {
+            return 1;
+         }
+    }
+
+    return 0;
 }
