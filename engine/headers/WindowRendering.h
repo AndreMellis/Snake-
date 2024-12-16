@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <string>
 
 class WindowRendering
 {
@@ -15,9 +17,11 @@ private:
 	//vars
 	SDL_Window *gWindow; //main game window
 	SDL_Renderer *gRenderer;
-	SDL_Texture *gTextureBuffer; 
+	SDL_Texture *gTextureBuffer;
 	int windowHeight;
 	int windowWidth;
+
+	SDL_Texture *stringToSurface(std::string inputStr, SDL_Color color, int fontSize, std::string fontName);
 
 public:
 	static WindowRendering *getInstance();
@@ -31,6 +35,7 @@ public:
 
 
 	void drawSolidRect(SDL_Rect *shape);
+	void drawString(std::string inputStr, SDL_Rect *shape); // draws a string to screen
 };
 
 #endif

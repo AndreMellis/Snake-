@@ -1,5 +1,6 @@
 #include "SnakeGame.h"
 #include <cstdio>
+#include <string>
 
 
 SnakeGame::SnakeGame()
@@ -49,6 +50,10 @@ void SnakeGame::render()
             mainMap[y][x]->render();
         }
     }
+
+    // print out score
+    std::string pointStr = "SCORE: " + std::to_string(score.getScore());
+    pWindowRenderer->drawString(pointStr, &scoreBoard);
 }
 
 void SnakeGame::handleInput(SDL_Event &event)
@@ -116,6 +121,7 @@ void SnakeGame::moveSnake()
 
     if (headHitDot())
     { // if we hit a dot eat and mvoe the dot, but keep the extra body piece
+        score.increaseScore();
         eatAndMoveDot();
     } else
     { // remove the extra body piece

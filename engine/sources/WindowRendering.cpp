@@ -51,6 +51,11 @@ WindowRendering::WindowRendering()
 					exit(1); //fail out the program
 				} else
 				{
+					if( TTF_Init() == -1)
+					{
+						std::cerr << "Failed to initialize TTF! TTF_Error: " << TTF_GetError() << "\n";
+						exit(1);
+					}
 					windowHeight = SDL_GetWindowSurface(gWindow)->h;
 					windowWidth = SDL_GetWindowSurface(gWindow)->w;
 				}
@@ -77,6 +82,7 @@ void WindowRendering::close()
 	gRenderer = nullptr;
 	gWindow = nullptr;
 
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -85,4 +91,33 @@ void WindowRendering::drawSolidRect(SDL_Rect *shape)
 {
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF); // make the next thing I draw white
 	SDL_RenderFillRect(gRenderer, shape);
+}
+
+SDL_Texture *WindowRendering::stringToSurface(std::string inputStr, SDL_Color color, int fontSize, std::string fontName)
+{
+	TTF_Font *ttfFont = TTF_OpenFont(fontName.c_str(), fontSize);
+	if(!ttfFont)
+	{
+		std::cerr << "Failed to open TTF_Font " << inputStr << " TTF_Error: " << TTF_GetError() <<"\n";
+	}
+
+	SDL_Surface *surfaceMessage = TTF_RenderText_Solid(ttfFont, inputStr.c_str(), color);
+	SDL_Texture *messageTexture = SDL_CreateTextureFromSurface(gRenderer, surfaceMessage);
+
+	TTF_CloseFont(ttfFont);
+	SDL_FreeSurface(surfaceMessage);
+	surfaceMessage = nullptr;
+
+	return messageTexture;
+}
+
+void WindowRendering::drawString(std::string inputStr, SDL_Rect *shape)
+{ // draws a string to screen
+	SDL_Color white = {255, 255, 255};
+	SDL_Texture *tempText = stringToSurface(inputStr, white, 24, "assets/fonts/Orbitron-Bold.ttf");
+
+	SDL_RenderCopy(gRenderer, tempText, NULL, shape);
+
+	SDL_DestroyTexture(tempText);
+	tempText=nullptr;
 }

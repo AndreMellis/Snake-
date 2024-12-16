@@ -3,6 +3,7 @@
 
 #include "Tile.h"
 #include "WindowRendering.h"
+#include "Score.h"
 
 #include <vector>
 #include <utility>
@@ -13,8 +14,12 @@ class SnakeGame
 {
 private:
     WindowRendering *pWindowRenderer = WindowRendering::getInstance();
+    Score score;
+
     std::vector<std::vector<Tile*>> mainMap; //mainMap is a 2d vector of ptrs to tiles
     std::vector< std::pair<int,int> > snakeParts; // a vector of pairs holding snake part's Yx cords
+
+    SDL_Rect scoreBoard = {0, 0, 250, 50};
 
     int mPosY; // head's y pos
     int mPosX; // head's x pos
